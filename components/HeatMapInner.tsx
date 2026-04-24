@@ -2,17 +2,17 @@
 
 // SR-019, SR-020, SR-021, SR-022, SR-023, SR-024, SR-025, SR-026, SR-027, SR-018
 // Internal heat map component — loaded via dynamic import (ssr: false) from HeatMap.tsx
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.heat";
+import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import type { Report } from "@/lib/types";
 import { CSUF_CENTER } from "@/lib/constants";
 import { isAnonymousLocationDelayed, formatRelativeTime } from "@/lib/utils";
-import { useReportsStore } from "@/lib/store/reportsStore";
-import { useAuthStore } from "@/lib/store/authStore";
 
 // ── Severity config ──────────────────────────────────────────────
 const SEVERITY_COLOR: Record<string, string> = {
@@ -208,7 +208,6 @@ function MapController({ reports, currentUserId, onUpvote, flyTarget }: MapContr
       clusterGroupRef.current = null;
     }
 
-    // @ts-expect-error markerClusterGroup types
     const group: L.MarkerClusterGroup = L.markerClusterGroup({
       maxClusterRadius: 50,
       iconCreateFunction: (cluster: L.MarkerCluster) => {
@@ -338,8 +337,9 @@ export default function HeatMapInner({
       <MapContainer
         center={[CSUF_CENTER.lat, CSUF_CENTER.lng]}
         zoom={16}
+        scrollWheelZoom
         className="h-full w-full"
-        style={{ zIndex: 0 }}
+        style={{ height: "100%", width: "100%", zIndex: 0 }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

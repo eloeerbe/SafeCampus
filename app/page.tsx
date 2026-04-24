@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ShieldCheck, EyeOff, Map, BellRing } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BrandMark } from "@/components/BrandMark";
 
 // ── Inline style helpers for serif wordmark (Palatino/Georgia) ──
 const serifStyle: React.CSSProperties = {
@@ -19,16 +20,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-[1280px] px-6 py-4 flex items-center justify-between">
 
           {/* Wordmark block */}
-          <div className="flex flex-col leading-none">
-            <span className="text-2xl font-bold text-primary tracking-tight">
-              SafeCampus
-            </span>
-            {/* CSUF co-brand line */}
-            <span style={{ ...serifStyle, fontSize: "11px" }}>
-              <span className="text-primary">Cal State </span>
-              <span style={{ color: "#FF7900" }}>Fullerton</span>
-            </span>
-          </div>
+          <BrandMark href="/" />
 
           {/* Sign-in buttons */}
           <nav className="flex items-center gap-3" aria-label="Authentication">

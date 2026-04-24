@@ -37,16 +37,6 @@ const STEPS = [
 const CATEGORIES: ReportCategory[] = ["Safety", "Maintenance", "Harassment", "Lost & Found", "Other"];
 const SEVERITIES: Severity[] = ["Low", "Medium", "High", "Critical"];
 
-// Step-level validation schemas
-const stepSchemas = [
-  z.object({ title: z.string().min(1, "Title is required"), description: z.string().min(1, "Description is required") }),
-  z.object({ category: z.enum(["Safety", "Maintenance", "Harassment", "Lost & Found", "Other"]) }),
-  z.object({ severity: z.enum(["Low", "Medium", "High", "Critical"]) }),
-  z.object({ location: z.object({ lat: z.number(), lng: z.number(), areaName: z.string().min(1, "Location is required") }) }),
-  z.object({ photos: z.array(z.any()).max(3, "Maximum 3 photos per report") }),
-  z.object({ isAnonymous: z.boolean() }),
-  reportFormSchema,
-];
 
 export function StepperForm({ onSubmit }: StepperFormProps) {
   const [step, setStep] = useState(0);
@@ -65,7 +55,7 @@ export function StepperForm({ onSubmit }: StepperFormProps) {
     mode: "onBlur",
   });
 
-  const { register, control, handleSubmit, watch, setValue, trigger, formState: { errors } } = form;
+  const { register, control, handleSubmit, watch, trigger, formState: { errors } } = form;
   const values = watch();
 
   const validateStep = async (): Promise<boolean> => {

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { NotificationBell } from "@/components/NotificationBell";
+import { BrandMark } from "@/components/BrandMark";
 import { cn } from "@/lib/cn";
 
 const PUBLIC_PATHS = ["/", "/login", "/signup", "/verify", "/forgot-password"];
@@ -50,9 +51,7 @@ export function NavBar() {
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* App name */}
-        <Link href={currentUser.role === "admin" ? "/admin" : "/dashboard"} className="text-lg font-bold text-primary">
-          SafeCampus
-        </Link>
+        <BrandMark href={currentUser.role === "admin" ? "/admin" : "/dashboard"} />
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-1 sm:flex">

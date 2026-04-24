@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 // Simple select dropdown primitive
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
+export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement>;
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, children, ...props }, ref) => {

@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 // Req 17.3: border-radius md for Textarea
 
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {

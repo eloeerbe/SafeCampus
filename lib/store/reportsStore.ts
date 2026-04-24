@@ -1,7 +1,9 @@
 // Requirements: 5.2, 6.1, 6.2, 6.3, 8.1, 8.2, 8.5, 11.2, 16.2
+// SR-028, SR-029, SR-030
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Report, ReportCategory } from "../types";
+import { useAuthStore } from "./authStore";
 
 export interface ReportsState {
   reports: Report[];
@@ -11,6 +13,7 @@ export interface ReportsState {
   upvoteReport: (reportId: string, userId: string) => { success: boolean; error?: string };
   removeUpvote: (reportId: string, userId: string) => void;
   markResolved: (reportId: string, adminId: string, notes: string) => void;
+  resolveReport: (reportId: string) => void;
   getByCategory: (category: ReportCategory) => Report[];
   getSortedByUpvotes: () => Report[];
 }
@@ -104,6 +107,28 @@ export const useReportsStore = create<ReportsState>()(
         const updatedReports = [...state.reports];
         updatedReports[reportIndex] = updatedReport;
 
+        set({ reports: updatedReports });
+      },
+
+      // SR-028, SR-029, SR-030: Quick-resolve from public detail page (admin only)
+      // Belt-and-suspenders guard: no-ops if caller is not an admin
+      resolveReport: (reportId: string) => {
+        const authState = useAuthStore.getState();
+        if (authState.currentUser?.role !== "admin") {
+          console.warn("[resolveReport] Blocked: caller is not an admin");
+          return;
+        }
+        const state = get();
+        const reportIndex = state.reports.findIndex((r) => r.id === reportId);
+        if (reportIndex === -1) return;
+        const updatedReports = [...state.reports];
+        updatedReports[reportIndex] = {
+          ...state.reports[reportIndex],
+          status: "Resolved" as const,
+          resolvedAt: new Date().toISOString(),
+          resolvedBy: authState.currentUser!.id,
+          resolutionNotes: null,
+        };
         set({ reports: updatedReports });
       },
 

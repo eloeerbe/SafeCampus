@@ -3,6 +3,8 @@
 // Requirements: 7.1, 7.2, 7.3, 8.1, 8.2, 8.5
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 import { AuthGuard } from "@/components/AuthGuard";
 import { UpvoteButton } from "@/components/UpvoteButton";
 import { SeverityBadge } from "@/components/SeverityBadge";
@@ -10,6 +12,7 @@ import { CategoryBadge } from "@/components/CategoryBadge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { useReportsStore } from "@/lib/store/reportsStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 import { formatRelativeTime, getDisplayName } from "@/lib/utils";
 
 export default function ReportDetailPage() {
@@ -19,12 +22,31 @@ export default function ReportDetailPage() {
   const currentUser = useAuthStore((s) => s.currentUser);
   const reports = useReportsStore((s) => s.reports);
   const upvoteReport = useReportsStore((s) => s.upvoteReport);
+  const resolveReport = useReportsStore((s) => s.resolveReport);
+  const pushNotification = useNotificationStore((s) => s.push);
 
   const report = reports.find((r) => r.id === reportId);
+  const isAdmin = currentUser?.role === "admin";
 
   const handleUpvote = (id: string) => {
     if (!currentUser) return;
     upvoteReport(id, currentUser.id);
+  };
+
+  const handleResolve = () => {
+    if (!currentUser || !report) return;
+    resolveReport(report.id);
+    // SR-031, SR-032: Send resolution notification to report author
+    pushNotification({
+      userId: report.authorId,
+      type: "report_resolved",
+      urgency: "non_urgent",
+      category: report.category,
+      header: `Your report "${report.title}" has been resolved`,
+      body: "Your report has been resolved.",
+      reportId: report.id,
+    });
+    toast.success("Report marked as resolved. Author has been notified.");
   };
 
   return (
@@ -92,7 +114,7 @@ export default function ReportDetailPage() {
               </div>
             )}
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <UpvoteButton
                 reportId={report.id}
                 authorId={report.authorId}
@@ -100,6 +122,30 @@ export default function ReportDetailPage() {
                 upvotedBy={report.upvotedBy}
                 onUpvote={handleUpvote}
               />
+
+              {/* UR-011 Mark Report as Resolved (admin only) */}
+              {/* SR-028 Admin resolution action */}
+              {/* SR-029 Status transitions to "Resolved" */}
+              {/* SR-030 resolvedAt timestamp recorded */}
+              {/* SR-031 Resolution notification sent to author */}
+              {/* SR-032 In-app notification delivered */}
+              {isAdmin && report.status !== "Resolved" && (
+                <button
+                  onClick={handleResolve}
+                  className="inline-flex items-center gap-2 rounded-md bg-safe px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-safe/50"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  Mark as Resolved
+                </button>
+              )}
+
+              {isAdmin && report.status === "Resolved" && (
+                <span className="inline-flex items-center gap-2 rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-500">
+                  <CheckCircle2 className="h-4 w-4" />
+                  Resolved on {report.resolvedAt ? new Date(report.resolvedAt).toLocaleDateString() : "—"}
+                </span>
+              )}
+
               <Link href="/dashboard" className="text-sm text-gray-500 hover:underline">
                 ← Back to Dashboard
               </Link>
