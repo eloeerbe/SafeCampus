@@ -11,7 +11,7 @@ import { useNotificationStore } from "@/lib/store/notificationStore";
 import { NotificationBell } from "@/components/NotificationBell";
 import { cn } from "@/lib/cn";
 
-const PUBLIC_PATHS = ["/", "/signup", "/verify", "/forgot-password"];
+const PUBLIC_PATHS = ["/", "/login", "/signup", "/verify", "/forgot-password"];
 
 export function NavBar() {
   const router = useRouter();
@@ -47,7 +47,7 @@ export function NavBar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white">
+    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* App name */}
         <Link href={currentUser.role === "admin" ? "/admin" : "/dashboard"} className="text-lg font-bold text-primary">
@@ -61,10 +61,10 @@ export function NavBar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "bg-primary/10 text-primary"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-slate-100 text-slate-900"
+                  : "text-slate-400 hover:bg-slate-100 hover:text-slate-700"
               )}
             >
               {link.label}
@@ -108,8 +108,8 @@ export function NavBar() {
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "bg-primary/10 text-primary"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-slate-100 text-slate-900"
+                  : "text-slate-400 hover:bg-slate-100 hover:text-slate-700"
               )}
             >
               {link.label}

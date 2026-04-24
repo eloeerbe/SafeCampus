@@ -1,32 +1,53 @@
-// Requirements: 6.3, 9.5, 19.2
+// Requirements: 6.3, 9.5, 19.2, SR-020, SR-027
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ReportCategory, Severity } from "../types";
+import type { ReportCategory, Severity, ReportStatus } from "../types";
+
+export type DateRangeOption = "24h" | "7d" | "30d" | "all";
+
+export interface MapFilters {
+  categories: ReportCategory[];
+  severities: Severity[];
+  statuses: ReportStatus[];
+  dateRange: DateRangeOption;
+}
 
 export interface UIState {
-  mapFilters: { category?: ReportCategory; severity?: Severity };
+  mapFilters: MapFilters;
   feedFilter: ReportCategory | null;
   activeModal: string | null;
   demoBannerDismissed: boolean;
-  setMapFilters: (filters: Partial<UIState["mapFilters"]>) => void;
+  setMapFilters: (filters: Partial<MapFilters>) => void;
+  resetMapFilters: () => void;
   setFeedFilter: (category: ReportCategory | null) => void;
   setActiveModal: (modalId: string | null) => void;
   dismissDemoBanner: () => void;
 }
 
+const DEFAULT_FILTERS: MapFilters = {
+  categories: [],
+  severities: [],
+  statuses: [],
+  dateRange: "all",
+};
+
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
-      mapFilters: {},
+      mapFilters: DEFAULT_FILTERS,
       feedFilter: null,
       activeModal: null,
       demoBannerDismissed: false,
 
-      // Req 9.5: Set category/severity filters for the heat map
+      // SR-020, SR-027: Set multi-select filters for the heat map
       setMapFilters: (filters) => {
         set((state) => ({
           mapFilters: { ...state.mapFilters, ...filters },
         }));
+      },
+
+      resetMapFilters: () => {
+        set({ mapFilters: DEFAULT_FILTERS });
       },
 
       // Req 6.3: Set category filter for the report feed
@@ -34,7 +55,6 @@ export const useUIStore = create<UIState>()(
         set({ feedFilter: category });
       },
 
-      // Set the currently active modal by id
       setActiveModal: (modalId) => {
         set({ activeModal: modalId });
       },
@@ -45,10 +65,7 @@ export const useUIStore = create<UIState>()(
       },
     }),
     {
-      name: "ui-storage",
-      // Only persist mapFilters and feedFilter.
-      // demoBannerDismissed resets on page reload (Req 19.2) and
-      // activeModal is transient UI state — neither should be persisted.
+      name: "ui-storage-v2",
       partialize: (state) => ({
         mapFilters: state.mapFilters,
         feedFilter: state.feedFilter,

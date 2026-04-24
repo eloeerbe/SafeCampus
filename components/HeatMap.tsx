@@ -1,24 +1,26 @@
 "use client";
 
-// Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6
+// SR-019, SR-021: Dynamic import wrapper — prevents SSR for Leaflet
 import dynamic from "next/dynamic";
-import type { Report, ReportCategory, Severity } from "@/lib/types";
+import type { Report } from "@/lib/types";
 
 const HeatMapInner = dynamic(() => import("./HeatMapInner"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-gray-100">
-      <p className="text-sm text-gray-400 animate-pulse">Loading map…</p>
+    <div className="flex h-full w-full items-center justify-center bg-slate-100">
+      <p className="text-sm text-slate-400 animate-pulse">Loading map…</p>
     </div>
   ),
 });
 
 interface HeatMapProps {
   reports: Report[];
-  filters: { category?: ReportCategory; severity?: Severity };
-  onReportClick: (reportId: string) => void;
+  currentUserId: string;
+  onUpvote: (reportId: string) => void;
+  flyTarget: { lat: number; lng: number } | null;
+  onFlyTo: (lat: number, lng: number) => void;
 }
 
-export function HeatMap({ reports, filters, onReportClick }: HeatMapProps) {
-  return <HeatMapInner reports={reports} filters={filters} onReportClick={onReportClick} />;
+export function HeatMap(props: HeatMapProps) {
+  return <HeatMapInner {...props} />;
 }

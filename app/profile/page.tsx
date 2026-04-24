@@ -66,7 +66,7 @@ export default function ProfilePage() {
     useAuthStore.setState({ users: mockUsers, currentUser: mockUsers.find((u) => u.id === currentUser.id) ?? currentUser });
     useReportsStore.setState({ reports: mockReports });
     useNotificationStore.setState({ notifications: mockNotifications });
-    useUIStore.setState({ feedFilter: null, mapFilters: {}, activeModal: null, demoBannerDismissed: false });
+    useUIStore.setState({ feedFilter: null, mapFilters: { categories: [], severities: [], statuses: [], dateRange: "all" }, activeModal: null, demoBannerDismissed: false });
     toast.success("Demo data has been reset.");
   };
 

@@ -51,11 +51,11 @@ export function AdminReportTable({ reports, onReportClick }: AdminReportTablePro
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-row items-center gap-4">
         <Select
           value={priorityFilter}
           onChange={(e) => setPriorityFilter(e.target.value as Priority | "All")}
-          className="w-40"
+          className="w-auto"
         >
           <option value="All">All Priorities</option>
           <option value="High">High</option>
@@ -65,7 +65,7 @@ export function AdminReportTable({ reports, onReportClick }: AdminReportTablePro
         <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as ReportStatus | "All")}
-          className="w-40"
+          className="w-auto"
         >
           <option value="All">All Statuses</option>
           <option value="Open">Open</option>

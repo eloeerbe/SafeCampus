@@ -109,18 +109,18 @@ export const mockUsers: User[] = [
   },
 ];
 
-// Requirement 15.2: 10 reports at CSUF campus coordinates
-// 8 Open, 1 In Progress, 1 Resolved
-// At least 3 High, 3 Medium, 3 Low severity
+// Requirement 15.2: 10 reports at CSUF campus coordinates (SR-021)
+// Coordinates match the illustrated campus map and aerial map
+// 8 Open, 1 In Progress, 1 Resolved — at least 3 High, 3 Medium, 3 Low severity
 export const mockReports: Report[] = [
   {
     id: "report-1",
-    title: "Broken streetlight near Titan Student Union",
-    description: "The streetlight on the east side of the Titan Student Union parking lot has been out for over a week. Very dark at night and feels unsafe walking to the parking structure.",
+    title: "Broken streetlight near Pollak Library",
+    description: "The streetlight on the east side of Pollak Library has been out for over a week. Very dark at night and feels unsafe walking to the parking structure.",
     category: "Safety",
     severity: "High",
     status: "Open",
-    location: { lat: 33.8813, lng: -117.8876, areaName: "Titan Student Union" },
+    location: { lat: 33.8820, lng: -117.8850, areaName: "Pollak Library" },
     photos: [
       { id: "photo-1a", url: "https://picsum.photos/seed/report1/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-20T18:30:00.000Z" },
     ],
@@ -134,12 +134,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-2",
-    title: "Water leak in Pollak Library restroom",
-    description: "There is a persistent water leak in the second-floor men's restroom at Pollak Library. The floor is slippery and could cause someone to fall.",
+    title: "Water leak in Titan Student Union restroom",
+    description: "There is a persistent water leak in the second-floor restroom at the Titan Student Union. The floor is slippery and could cause someone to fall.",
     category: "Maintenance",
     severity: "Medium",
     status: "Open",
-    location: { lat: 33.8832, lng: -117.8857, areaName: "Pollak Library" },
+    location: { lat: 33.8812, lng: -117.8859, areaName: "Titan Student Union" },
     photos: [
       { id: "photo-2a", url: "https://picsum.photos/seed/report2/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-21T09:00:00.000Z" },
       { id: "photo-2b", url: "https://picsum.photos/seed/report2b/400/300", fileType: "image/png", uploadedAt: "2025-01-21T09:01:00.000Z" },
@@ -154,12 +154,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-3",
-    title: "Suspicious individual near Engineering Building",
-    description: "An unidentified person has been loitering near the Engineering Building entrance for several hours, approaching students and asking for personal information.",
+    title: "Suspicious individual near Langsdorf Hall",
+    description: "An unidentified person has been loitering near the Langsdorf Hall entrance for several hours, approaching students and asking for personal information.",
     category: "Safety",
     severity: "Critical",
     status: "Open",
-    location: { lat: 33.8822, lng: -117.8830, areaName: "Engineering Building" },
+    location: { lat: 33.8803, lng: -117.8846, areaName: "Langsdorf Hall" },
     photos: [],
     isAnonymous: true,
     authorId: "user-student-3",
@@ -176,7 +176,7 @@ export const mockReports: Report[] = [
     category: "Lost & Found",
     severity: "Low",
     status: "Open",
-    location: { lat: 33.8790, lng: -117.8842, areaName: "McCarthy Hall" },
+    location: { lat: 33.8798, lng: -117.8863, areaName: "McCarthy Hall" },
     photos: [
       { id: "photo-4a", url: "https://picsum.photos/seed/report4/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-22T16:00:00.000Z" },
     ],
@@ -190,12 +190,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-5",
-    title: "Elevator malfunction in Langsdorf Hall",
-    description: "The main elevator in Langsdorf Hall has been making grinding noises and getting stuck between floors. Multiple students have been trapped briefly.",
+    title: "Elevator malfunction in Mihaylo Hall",
+    description: "The main elevator in Mihaylo Hall has been making grinding noises and getting stuck between floors. Multiple students have been trapped briefly.",
     category: "Maintenance",
     severity: "High",
     status: "In Progress",
-    location: { lat: 33.8795, lng: -117.8855, areaName: "Langsdorf Hall" },
+    location: { lat: 33.8786, lng: -117.8838, areaName: "Mihaylo Hall" },
     photos: [
       { id: "photo-5a", url: "https://picsum.photos/seed/report5/400/300", fileType: "image/png", uploadedAt: "2025-01-19T11:00:00.000Z" },
     ],
@@ -209,12 +209,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-6",
-    title: "Harassment incident at Nutwood Parking Structure",
-    description: "A student reported verbal harassment from another individual in the Nutwood Parking Structure around 9pm. The area was poorly lit.",
+    title: "Harassment incident at Student Rec Center",
+    description: "A student reported verbal harassment from another individual near the Student Rec Center around 9pm. The area was poorly lit.",
     category: "Harassment",
     severity: "High",
     status: "Open",
-    location: { lat: 33.8800, lng: -117.8890, areaName: "Nutwood Parking Structure" },
+    location: { lat: 33.8844, lng: -117.8876, areaName: "Student Rec Center" },
     photos: [],
     isAnonymous: true,
     authorId: "user-student-4",
@@ -226,12 +226,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-7",
-    title: "Cracked sidewalk near Titan Gym",
-    description: "There is a large crack in the sidewalk between the Titan Gym and the Student Recreation Center. It is a tripping hazard, especially at night.",
+    title: "Cracked sidewalk at Nutwood Parking Structure",
+    description: "There is a large crack in the sidewalk at the Nutwood Parking Structure entrance. It is a tripping hazard, especially at night.",
     category: "Maintenance",
     severity: "Medium",
     status: "Open",
-    location: { lat: 33.8835, lng: -117.8880, areaName: "Titan Gym" },
+    location: { lat: 33.8805, lng: -117.8898, areaName: "Nutwood Parking" },
     photos: [
       { id: "photo-7a", url: "https://picsum.photos/seed/report7/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-21T13:45:00.000Z" },
     ],
@@ -245,12 +245,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-8",
-    title: "Graffiti on Visual Arts Building",
-    description: "Offensive graffiti was found on the south wall of the Visual Arts Building this morning. It needs to be cleaned up promptly.",
+    title: "Graffiti at State College Parking Structure",
+    description: "Offensive graffiti was found on the south wall of the State College Parking Structure this morning. It needs to be cleaned up promptly.",
     category: "Other",
     severity: "Low",
     status: "Open",
-    location: { lat: 33.8810, lng: -117.8865, areaName: "Visual Arts Building" },
+    location: { lat: 33.8836, lng: -117.8829, areaName: "State College Parking" },
     photos: [
       { id: "photo-8a", url: "https://picsum.photos/seed/report8/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-23T07:30:00.000Z" },
       { id: "photo-8b", url: "https://picsum.photos/seed/report8b/400/300", fileType: "image/png", uploadedAt: "2025-01-23T07:31:00.000Z" },
@@ -265,12 +265,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-9",
-    title: "Missing fire extinguisher in Titan Hall",
-    description: "The fire extinguisher on the third floor of Titan Hall near room 310 is missing from its case. This is a serious safety concern.",
+    title: "Missing fire extinguisher in Engineering / CS Building",
+    description: "The fire extinguisher on the third floor of the Engineering / CS Building near room 310 is missing from its case. This is a serious safety concern.",
     category: "Safety",
     severity: "Medium",
     status: "Open",
-    location: { lat: 33.8840, lng: -117.8845, areaName: "Titan Hall" },
+    location: { lat: 33.8833, lng: -117.8833, areaName: "Engineering / CS" },
     photos: [
       { id: "photo-9a", url: "https://picsum.photos/seed/report9/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-24T10:00:00.000Z" },
     ],
@@ -284,12 +284,12 @@ export const mockReports: Report[] = [
   },
   {
     id: "report-10",
-    title: "Pothole in Eastside Parking Lot",
-    description: "A large pothole has formed near the entrance of the Eastside Parking Lot. Several cars have hit it and it is getting worse with rain.",
+    title: "Pothole near Housing — Pine Tree",
+    description: "A large pothole has formed near the entrance of the Housing Pine Tree area. Several bikes have hit it and it is getting worse with rain.",
     category: "Maintenance",
     severity: "Low",
     status: "Resolved",
-    location: { lat: 33.8818, lng: -117.8820, areaName: "Eastside Parking Lot" },
+    location: { lat: 33.8850, lng: -117.8805, areaName: "Housing — Pine Tree" },
     photos: [
       { id: "photo-10a", url: "https://picsum.photos/seed/report10/400/300", fileType: "image/jpeg", uploadedAt: "2025-01-15T08:00:00.000Z" },
     ],
