@@ -13,9 +13,11 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { useReportsStore } from "@/lib/store/reportsStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useTranslation } from "@/hooks/useTranslation";
 import { formatRelativeTime, getDisplayName } from "@/lib/utils";
 
 export default function ReportDetailPage() {
+  const { t } = useTranslation();
   const params = useParams();
   const reportId = params.id as string;
 
@@ -28,6 +30,12 @@ export default function ReportDetailPage() {
   const report = reports.find((r) => r.id === reportId);
   const isAdmin = currentUser?.role === "admin";
 
+  // Helper to translate dynamic strings like "Safety" or "Open"
+  const translate = (key: string) => {
+    const lowerKey = key.toLowerCase().replace(/\s+/g, '');
+    return (t.common as any)[lowerKey] || key;
+  };
+
   const handleUpvote = (id: string) => {
     if (!currentUser) return;
     upvoteReport(id, currentUser.id);
@@ -36,17 +44,20 @@ export default function ReportDetailPage() {
   const handleResolve = () => {
     if (!currentUser || !report) return;
     resolveReport(report.id);
-    // SR-031, SR-032: Send resolution notification to report author
+    
+    // SR-031, SR-032: Send resolution notification using translated keys
     pushNotification({
       userId: report.authorId,
       type: "report_resolved",
       urgency: "non_urgent",
       category: report.category,
-      header: `Your report "${report.title}" has been resolved`,
-      body: "Your report has been resolved.",
+      header: t.toasts.resolved || "Report Resolved",
+      body: `${t.feed.title}: ${report.title}`,
       reportId: report.id,
     });
-    toast.success("Report marked as resolved. Author has been notified.");
+    
+    // FIXED: Removed the curly braces that were causing the error
+    toast.success(t.toasts.resolved || "Report marked as resolved.");
   };
 
   return (
@@ -54,9 +65,9 @@ export default function ReportDetailPage() {
       <div className="mx-auto max-w-2xl px-4 py-6">
         {!report ? (
           <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center">
-            <p className="text-lg font-medium text-gray-700">Report not found</p>
+            <p className="text-lg font-medium text-gray-700">{t.feed.notFound || "Report not found"}</p>
             <Link href="/dashboard" className="mt-3 inline-block text-sm text-primary hover:underline">
-              ← Back to Dashboard
+              ← {t.feed.back}
             </Link>
           </div>
         ) : (
@@ -64,9 +75,10 @@ export default function ReportDetailPage() {
             <div>
               <h1 className="text-2xl font-bold">{report.title}</h1>
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <CategoryBadge category={report.category} />
-                <SeverityBadge severity={report.severity} />
-                <StatusBadge status={report.status} />
+                {/* Now using the translate helper for Spanish badges */}
+                <CategoryBadge category={translate(report.category)} />
+                <SeverityBadge severity={translate(report.severity)} />
+                <StatusBadge status={translate(report.status)} />
               </div>
             </div>
 
@@ -74,26 +86,30 @@ export default function ReportDetailPage() {
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-500">Location</span>
+                <span className="font-medium text-gray-500">{t.feed.location}</span>
                 <p>{report.location.areaName}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Submitted</span>
-                <p>{formatRelativeTime(report.submittedAt)}</p>
+                <span className="font-medium text-gray-500">{t.feed.submitted}</span>
+                <p>{t.feed.timeAgo || formatRelativeTime(report.submittedAt)}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Author</span>
-                <p>{getDisplayName(report.authorId, report.isAnonymous)}</p>
+                <span className="font-medium text-gray-500">{t.feed.author}</span>
+                <p>
+                  {report.isAnonymous 
+                    ? t.feed.anonymous 
+                    : getDisplayName(report.authorId, report.isAnonymous)}
+                </p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Upvotes</span>
+                <span className="font-medium text-gray-500">{t.feed.upvotes}</span>
                 <p>{report.upvotedBy.length}</p>
               </div>
             </div>
 
             {report.photos.length > 0 && (
               <div>
-                <h2 className="mb-2 text-sm font-medium text-gray-500">Photos</h2>
+                <h2 className="mb-2 text-sm font-medium text-gray-500">{t.feed.photos}</h2>
                 <div className="grid grid-cols-3 gap-2">
                   {report.photos.map((photo) => (
                     <img
@@ -109,7 +125,9 @@ export default function ReportDetailPage() {
 
             {report.status === "Resolved" && report.resolutionNotes && (
               <div className="rounded-lg bg-safe/10 p-4">
-                <h2 className="text-sm font-semibold text-safe">Resolution Notes</h2>
+                <h2 className="text-sm font-semibold text-safe">
+                   {t.common.resolutionNotes || "Resolution Notes"}
+                </h2>
                 <p className="mt-1 text-sm text-gray-700">{report.resolutionNotes}</p>
               </div>
             )}
@@ -123,31 +141,18 @@ export default function ReportDetailPage() {
                 onUpvote={handleUpvote}
               />
 
-              {/* UR-011 Mark Report as Resolved (admin only) */}
-              {/* SR-028 Admin resolution action */}
-              {/* SR-029 Status transitions to "Resolved" */}
-              {/* SR-030 resolvedAt timestamp recorded */}
-              {/* SR-031 Resolution notification sent to author */}
-              {/* SR-032 In-app notification delivered */}
               {isAdmin && report.status !== "Resolved" && (
                 <button
                   onClick={handleResolve}
                   className="inline-flex items-center gap-2 rounded-md bg-safe px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-safe/50"
                 >
                   <CheckCircle2 className="h-4 w-4" />
-                  Mark as Resolved
+                  {t.common.resolveAction || "Mark as Resolved"}
                 </button>
               )}
 
-              {isAdmin && report.status === "Resolved" && (
-                <span className="inline-flex items-center gap-2 rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-500">
-                  <CheckCircle2 className="h-4 w-4" />
-                  Resolved on {report.resolvedAt ? new Date(report.resolvedAt).toLocaleDateString() : "—"}
-                </span>
-              )}
-
               <Link href="/dashboard" className="text-sm text-gray-500 hover:underline">
-                ← Back to Dashboard
+                ← {t.feed.back}
               </Link>
             </div>
           </div>

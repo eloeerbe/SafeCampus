@@ -8,6 +8,7 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useTranslation } from "@/hooks/useTranslation"; // Step 1: Import
 import { NotificationBell } from "@/components/NotificationBell";
 import { BrandMark } from "@/components/BrandMark";
 import { cn } from "@/lib/cn";
@@ -15,6 +16,7 @@ import { cn } from "@/lib/cn";
 const PUBLIC_PATHS = ["/", "/login", "/signup", "/verify", "/forgot-password"];
 
 export function NavBar() {
+  const { t } = useTranslation(); // Step 2: Initialize translation
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = useAuthStore((s) => s.currentUser);
@@ -22,7 +24,6 @@ export function NavBar() {
   const unreadCount = useNotificationStore((s) => s.unreadCount);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // SR-018: Don't render nav on public routes or when not authenticated
   if (!currentUser || PUBLIC_PATHS.includes(pathname)) {
     return null;
   }
@@ -36,21 +37,20 @@ export function NavBar() {
     router.push("/notifications");
   };
 
+  // Step 3: Use the dictionary variables (No curly braces here)
   const navLinks = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/map", label: "Map" },
-    { href: "/profile", label: "Profile" },
+    { href: "/dashboard", label: t.nav.dashboard },
+    { href: "/map", label: t.nav.map },
+    { href: "/profile", label: t.nav.profile },
   ];
 
-  // Add admin link for admin users
   if (currentUser.role === "admin") {
-    navLinks.unshift({ href: "/admin", label: "Admin" });
+    navLinks.unshift({ href: "/admin", label: t.nav.admin });
   }
 
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        {/* App name */}
         <BrandMark href={currentUser.role === "admin" ? "/admin" : "/dashboard"} />
 
         {/* Desktop nav links */}
@@ -71,7 +71,6 @@ export function NavBar() {
           ))}
         </div>
 
-        {/* Right side: bell + logout */}
         <div className="flex items-center gap-2">
           <NotificationBell
             unreadCount={unreadCount(currentUser.id)}
@@ -85,7 +84,6 @@ export function NavBar() {
             <LogOut className="h-5 w-5" />
           </button>
 
-          {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="rounded-md p-2 text-gray-600 hover:bg-gray-100 sm:hidden"
@@ -114,11 +112,12 @@ export function NavBar() {
               {link.label}
             </Link>
           ))}
+          {/* Step 4: Translate the mobile logout text */}
           <button
             onClick={handleLogout}
             className="mt-1 flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
           >
-            <LogOut className="h-4 w-4" /> Logout
+            <LogOut className="h-4 w-4" /> {t.nav.logout}
           </button>
         </div>
       )}

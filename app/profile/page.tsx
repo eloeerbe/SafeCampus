@@ -11,10 +11,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useReportsStore } from "@/lib/store/reportsStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useUIStore } from "@/lib/store/uiStore";
 import { mockUsers, mockReports, mockNotifications } from "@/lib/mockData";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const currentUser = useAuthStore((s) => s.currentUser);
   const toggleMFA = useAuthStore((s) => s.toggleMFA);
   const updateProfile = useAuthStore((s) => s.updateProfile);
@@ -27,7 +29,7 @@ export default function ProfilePage() {
   // Req 13.2: Update notification preferences with toast
   const handleEmailToggle = (checked: boolean) => {
     updateNotifPrefs({ emailEnabled: checked });
-    toast.success("Email notifications updated");
+    toast.success(t.toasts.emailUpdated);
   };
 
   const handleInAppToggle = (checked: boolean) => {
@@ -53,12 +55,12 @@ export default function ProfilePage() {
 
   const handlePublicProfileToggle = (checked: boolean) => {
     updateProfile({ publicProfile: checked });
-    toast.success("Profile visibility updated");
+    toast.success(t.toasts.visibilityUpdated);
   };
 
   const handleLocationToggle = (checked: boolean) => {
     updateProfile({ locationPermission: checked });
-    toast.success("Location permission updated");
+    toast.success(t.toasts.locationUpdated);
   };
 
   // SR-031: Reset Demo Data — reload all stores with original mockData
@@ -68,12 +70,12 @@ export default function ProfilePage() {
     useNotificationStore.setState({ notifications: mockNotifications });
     useUIStore.setState({ feedFilter: null, mapFilters: { categories: [], severities: [], statuses: [], dateRange: "all" }, activeModal: null, demoBannerDismissed: false });
     toast.success("Demo data has been reset.");
-  };
+  }
 
   return (
     <AuthGuard>
       <div className="mx-auto max-w-2xl px-4 py-6 space-y-6">
-        <h1 className="text-2xl font-bold">Profile</h1>
+        <h1 className="text-2xl font-bold">{t.profile.title}</h1>
 
         {/* User Info */}
         <Card>
@@ -90,25 +92,25 @@ export default function ProfilePage() {
         {/* Notification Preferences */}
         <Card>
           <CardContent className="p-4 space-y-4">
-            <h2 className="text-lg font-semibold">Notification Preferences</h2>
+            <h2 className="text-lg font-semibold">{t.profile.notifPrefs}</h2>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm">Email Notifications</span>
+              <span className="text-sm">{t.profile.emailNotifs}</span>
               <Switch checked={prefs.emailEnabled} onCheckedChange={handleEmailToggle} />
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm">In-App Notifications</span>
+              <span className="text-sm">{t.profile.inAppNotifs}</span>
               <Switch checked={prefs.inAppEnabled} onCheckedChange={handleInAppToggle} />
             </div>
 
             <div className="border-t pt-3">
-              <p className="mb-2 text-sm font-medium text-gray-500">Category Preferences</p>
+              <p className="mb-2 text-sm font-medium text-gray-500">{t.profile.categoryPrefs}</p>
               {([
-                ["safety", "Safety"],
-                ["maintenance", "Maintenance"],
-                ["harassment", "Harassment"],
-                ["lostAndFound", "Lost & Found"],
-                ["other", "Other"],
+                ["safety", t.profile.categories.safety],
+                ["maintenance", t.profile.categories.maintenance],
+                ["harassment", t.profile.categories.harassment],
+                ["lostAndFound", t.profile.categories.lostAndFound],
+                ["other", t.profile.categories.other],
               ] as const).map(([key, label]) => (
                 <div key={key} className="flex items-center justify-between py-1">
                   <span className="text-sm">{label}</span>
@@ -125,18 +127,18 @@ export default function ProfilePage() {
         {/* Settings */}
         <Card>
           <CardContent className="p-4 space-y-4">
-            <h2 className="text-lg font-semibold">Settings</h2>
+            <h2 className="text-lg font-semibold">{t.profile.settings}</h2>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Two-Factor Authentication</p>
-                <p className="text-xs text-gray-500">Require OTP on login</p>
+                <p className="text-sm font-medium">{t.profile.mfa}</p>
+                <p className="text-xs text-gray-500">{t.profile.mfaDesc}</p>
               </div>
               <Switch checked={currentUser.mfaEnabled} onCheckedChange={handleMFAToggle} />
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Language</span>
+              <span className="text-sm font-medium">{t.profile.language}</span>
               <Select
                 value={currentUser.language}
                 onChange={(e) => handleLanguageChange(e.target.value as "en" | "es")}
@@ -149,16 +151,16 @@ export default function ProfilePage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Public Profile</p>
-                <p className="text-xs text-gray-500">Allow others to see your profile</p>
+                <p className="text-sm font-medium">{t.profile.publicProfile}</p>
+                <p className="text-xs text-gray-500">{t.profile.publicDesc}</p>
               </div>
               <Switch checked={currentUser.publicProfile} onCheckedChange={handlePublicProfileToggle} />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Location Permission</p>
-                <p className="text-xs text-gray-500">Allow map to use your location</p>
+                <p className="text-sm font-medium">{t.profile.locationPerm}</p>
+                <p className="text-xs text-gray-500">{t.profile.locationDesc}</p>
               </div>
               <Switch checked={currentUser.locationPermission} onCheckedChange={handleLocationToggle} />
             </div>
@@ -169,7 +171,7 @@ export default function ProfilePage() {
         <Card>
           <CardContent className="p-4">
             <Button variant="outline" className="w-full text-danger border-danger hover:bg-danger/5" onClick={handleResetDemoData}>
-              Reset Demo Data
+              {t.profile.resetDemo}
             </Button>
           </CardContent>
         </Card>
