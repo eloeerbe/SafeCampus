@@ -16,7 +16,7 @@ export default function NewReportPage() {
   const handleSubmit = (data: Parameters<typeof addReport>[0] extends infer T ? T extends object ? {
     title: string;
     description: string;
-    category: "Safety" | "Maintenance" | "Harassment" | "Lost & Found" | "Other";
+    category: "Safety" | "Maintenance" | "Accident" | "Lost & Found" | "Other";
     severity: "Low" | "Medium" | "High" | "Critical";
     location: { lat: number; lng: number; areaName: string };
     photos: { id: string; url: string; fileType: "image/jpeg" | "image/png"; uploadedAt: string }[];

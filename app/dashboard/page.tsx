@@ -23,7 +23,7 @@ export default function DashboardPage() {
   const CATEGORIES = [
     { value: "Safety", label: t.profile.categories.safety },
     { value: "Maintenance", label: t.profile.categories.maintenance },
-    { value: "Harassment", label: t.profile.categories.harassment },
+    { value: "Accident", label: t.profile.categories.accident },
     { value: "Lost & Found", label: t.profile.categories.lostAndFound },
     { value: "Other", label: t.profile.categories.other },
   ];

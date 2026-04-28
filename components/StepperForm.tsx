@@ -34,7 +34,7 @@ const STEPS = [
   "Review & Submit",
 ];
 
-const CATEGORIES: ReportCategory[] = ["Safety", "Maintenance", "Harassment", "Lost & Found", "Other"];
+const CATEGORIES: ReportCategory[] = ["Safety", "Maintenance", "Accident", "Lost & Found", "Other"];
 const SEVERITIES: Severity[] = ["Low", "Medium", "High", "Critical"];
 
 

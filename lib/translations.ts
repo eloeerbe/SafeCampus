@@ -18,7 +18,7 @@ export const translations = {
       categories: {
         safety: "Safety",
         maintenance: "Maintenance",
-        harassment: "Harassment",
+        accident: "Accident",
         lostAndFound: "Lost & Found",
         other: "Other",
       },
@@ -77,7 +77,7 @@ export const translations = {
     common: {
       safety: "Safety",
       maintenance: "Maintenance",
-      harassment: "Harassment",
+      accident: "Accident",
       open: "Open",
       inProgress: "In Progress",
       resolved: "Resolved",
@@ -102,7 +102,7 @@ export const translations = {
       categories: {
         safety: "Seguridad",
         maintenance: "Mantenimiento",
-        harassment: "Acoso",
+        accident: "Accidente",
         lostAndFound: "Objetos Perdidos",
         other: "Otro",
       },
@@ -161,7 +161,7 @@ export const translations = {
     common: {
       safety: "Seguridad",
       maintenance: "Mantenimiento",
-      harassment: "Acoso",
+      accident: "Accidente",
       open: "Abierto",
       inProgress: "En Progreso",
       resolved: "Resuelto",

@@ -108,7 +108,7 @@ export default function ProfilePage() {
               {([
                 ["safety", t.profile.categories.safety],
                 ["maintenance", t.profile.categories.maintenance],
-                ["harassment", t.profile.categories.harassment],
+                ["accident", t.profile.categories.accident],
                 ["lostAndFound", t.profile.categories.lostAndFound],
                 ["other", t.profile.categories.other],
               ] as const).map(([key, label]) => (

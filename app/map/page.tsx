@@ -19,7 +19,7 @@ import type { ReportCategory, Severity, ReportStatus } from "@/lib/types";
 import type { DateRangeOption } from "@/lib/store/uiStore";
 
 // ── Constants ────────────────────────────────────────────────────
-const CATEGORIES: ReportCategory[] = ["Safety", "Maintenance", "Harassment", "Lost & Found", "Other"];
+const CATEGORIES: ReportCategory[] = ["Safety", "Maintenance", "Accident", "Lost & Found", "Other"];
 const SEVERITIES: Severity[] = ["Low", "Medium", "High", "Critical"];
 const STATUSES: ReportStatus[] = ["Open", "In Progress", "Resolved"];
 
@@ -32,7 +32,7 @@ const STATUS_COLORS: Record<ReportStatus, string> = {
 const CATEGORY_COLORS: Record<ReportCategory, string> = {
   Safety: "#DC2626",
   Maintenance: "#F97316",
-  Harassment: "#7C3AED",
+  Accident: "#7C3AED",
   "Lost & Found": "#0EA5E9",
   Other: "#6B7280",
 };

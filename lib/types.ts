@@ -2,7 +2,7 @@
 
 // Enums / Union Types
 export type UserRole = "student" | "admin";
-export type ReportCategory = "Safety" | "Maintenance" | "Harassment" | "Lost & Found" | "Other";
+export type ReportCategory = "Safety" | "Maintenance" | "Accident" | "Lost & Found" | "Other";
 export type ReportStatus = "Open" | "In Progress" | "Resolved";
 export type Severity = "Low" | "Medium" | "High" | "Critical";
 export type NotifType = "report_resolved" | "new_report" | "urgent_alert" | "status_change";
@@ -33,7 +33,7 @@ export interface NotificationPrefs {
   categories: {
     safety: boolean;
     maintenance: boolean;
-    harassment: boolean;
+    accident: boolean;
     lostAndFound: boolean;
     other: boolean;
   };

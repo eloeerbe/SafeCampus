@@ -104,7 +104,7 @@ export const useAuthStore = create<AuthState>()(
             categories: {
               safety: true,
               maintenance: true,
-              harassment: true,
+              accident: true,
               lostAndFound: true,
               other: true,
             },

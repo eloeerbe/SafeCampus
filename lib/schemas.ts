@@ -25,7 +25,7 @@ export const otpSchema = z
 export const reportCategorySchema = z.enum([
   "Safety",
   "Maintenance",
-  "Harassment",
+  "Accident",
   "Lost & Found",
   "Other",
 ]);
