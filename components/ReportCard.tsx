@@ -39,7 +39,7 @@ export function ReportCard({ report, currentUserId, onUpvote }: ReportCardProps)
               <StatusBadge status={translate(report.status)} />
             </div>
 
-            <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+            <div className="mt-2 flex items-center gap-2 text-xs text-white/45">
               {/* Translate "Anonymous" if the report is anonymous */}
               <span>
                 {report.isAnonymous 

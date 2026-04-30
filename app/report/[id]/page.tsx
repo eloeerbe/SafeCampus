@@ -64,8 +64,8 @@ export default function ReportDetailPage() {
     <AuthGuard>
       <div className="mx-auto max-w-2xl px-4 py-6">
         {!report ? (
-          <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center">
-            <p className="text-lg font-medium text-gray-700">{t.feed.notFound || "Report not found"}</p>
+          <div className="rounded-lg border border-dashed border-white/15 p-8 text-center">
+            <p className="text-lg font-medium text-white/80">{t.feed.notFound || "Report not found"}</p>
             <Link href="/dashboard" className="mt-3 inline-block text-sm text-primary hover:underline">
               ← {t.feed.back}
             </Link>
@@ -82,19 +82,19 @@ export default function ReportDetailPage() {
               </div>
             </div>
 
-            <p className="text-sm text-gray-700 leading-relaxed">{report.description}</p>
+            <p className="text-sm text-white/80 leading-relaxed">{report.description}</p>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-500">{t.feed.location}</span>
+                <span className="font-medium text-white/50">{t.feed.location}</span>
                 <p>{report.location.areaName}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">{t.feed.submitted}</span>
+                <span className="font-medium text-white/50">{t.feed.submitted}</span>
                 <p>{t.feed.timeAgo || formatRelativeTime(report.submittedAt)}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">{t.feed.author}</span>
+                <span className="font-medium text-white/50">{t.feed.author}</span>
                 <p>
                   {report.isAnonymous 
                     ? t.feed.anonymous 
@@ -102,14 +102,14 @@ export default function ReportDetailPage() {
                 </p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">{t.feed.upvotes}</span>
+                <span className="font-medium text-white/50">{t.feed.upvotes}</span>
                 <p>{report.upvotedBy.length}</p>
               </div>
             </div>
 
             {report.photos.length > 0 && (
               <div>
-                <h2 className="mb-2 text-sm font-medium text-gray-500">{t.feed.photos}</h2>
+                <h2 className="mb-2 text-sm font-medium text-white/50">{t.feed.photos}</h2>
                 <div className="grid grid-cols-3 gap-2">
                   {report.photos.map((photo) => (
                     <img
@@ -128,7 +128,7 @@ export default function ReportDetailPage() {
                 <h2 className="text-sm font-semibold text-safe">
                    {t.common.resolutionNotes || "Resolution Notes"}
                 </h2>
-                <p className="mt-1 text-sm text-gray-700">{report.resolutionNotes}</p>
+                <p className="mt-1 text-sm text-white/80">{report.resolutionNotes}</p>
               </div>
             )}
 
@@ -151,7 +151,7 @@ export default function ReportDetailPage() {
                 </button>
               )}
 
-              <Link href="/dashboard" className="text-sm text-gray-500 hover:underline">
+              <Link href="/dashboard" className="text-sm text-white/50 hover:underline">
                 ← {t.feed.back}
               </Link>
             </div>

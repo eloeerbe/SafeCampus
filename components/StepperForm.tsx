@@ -141,7 +141,7 @@ export function StepperForm({ onSubmit }: StepperFormProps) {
                       onClick={() => field.onChange(cat)}
                       className={cn(
                         "rounded-lg border p-3 text-sm font-medium text-left transition-colors",
-                        field.value === cat ? "border-primary bg-primary/5 text-primary" : "border-gray-200 hover:bg-gray-50"
+                        field.value === cat ? "border-primary bg-primary/5 text-primary" : "border-white/10 hover:bg-white/5"
                       )}
                     >
                       {cat}
@@ -168,7 +168,7 @@ export function StepperForm({ onSubmit }: StepperFormProps) {
                       onClick={() => field.onChange(sev)}
                       className={cn(
                         "rounded-lg border p-3 text-sm font-medium text-left transition-colors flex items-center gap-2",
-                        field.value === sev ? "border-primary bg-primary/5" : "border-gray-200 hover:bg-gray-50"
+                        field.value === sev ? "border-primary bg-primary/5" : "border-white/10 hover:bg-white/5"
                       )}
                     >
                       <SeverityBadge severity={sev} />

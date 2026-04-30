@@ -83,8 +83,8 @@ export default function ProfilePage() {
             <Avatar src={currentUser.avatar} alt={currentUser.name} fallback={currentUser.name.charAt(0)} size="lg" />
             <div>
               <p className="font-semibold">{currentUser.name}</p>
-              <p className="text-sm text-gray-500">{currentUser.email}</p>
-              <p className="text-xs text-gray-400 capitalize">{currentUser.role}</p>
+              <p className="text-sm text-white/50">{currentUser.email}</p>
+              <p className="text-xs text-white/40 capitalize">{currentUser.role}</p>
             </div>
           </CardContent>
         </Card>
@@ -104,7 +104,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="border-t pt-3">
-              <p className="mb-2 text-sm font-medium text-gray-500">{t.profile.categoryPrefs}</p>
+              <p className="mb-2 text-sm font-medium text-white/50">{t.profile.categoryPrefs}</p>
               {([
                 ["safety", t.profile.categories.safety],
                 ["maintenance", t.profile.categories.maintenance],
@@ -132,7 +132,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium">{t.profile.mfa}</p>
-                <p className="text-xs text-gray-500">{t.profile.mfaDesc}</p>
+                <p className="text-xs text-white/50">{t.profile.mfaDesc}</p>
               </div>
               <Switch checked={currentUser.mfaEnabled} onCheckedChange={handleMFAToggle} />
             </div>
@@ -152,7 +152,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium">{t.profile.publicProfile}</p>
-                <p className="text-xs text-gray-500">{t.profile.publicDesc}</p>
+                <p className="text-xs text-white/50">{t.profile.publicDesc}</p>
               </div>
               <Switch checked={currentUser.publicProfile} onCheckedChange={handlePublicProfileToggle} />
             </div>
@@ -160,7 +160,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium">{t.profile.locationPerm}</p>
-                <p className="text-xs text-gray-500">{t.profile.locationDesc}</p>
+                <p className="text-xs text-white/50">{t.profile.locationDesc}</p>
               </div>
               <Switch checked={currentUser.locationPermission} onCheckedChange={handleLocationToggle} />
             </div>

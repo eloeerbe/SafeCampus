@@ -63,7 +63,7 @@ export default function DashboardPage() {
         </div>
 
         {filteredReports.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+          <div className="rounded-lg border border-dashed border-white/15 p-8 text-center text-sm text-white/40">
             {feedFilter
               ? `${t.feed.noReportsFound || "No reports found"} for "${feedFilter}"`
               : t.feed.noActiveReports || "No active reports to display."}

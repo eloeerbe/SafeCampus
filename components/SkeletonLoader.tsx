@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 function SkeletonLine({ className }: { className?: string }) {
   return (
-    <div className={cn("h-4 animate-pulse rounded bg-gray-200", className)} />
+    <div className={cn("h-4 animate-pulse rounded bg-white/8", className)} />
   );
 }
 
@@ -19,7 +19,7 @@ function SkeletonText({ lines = 3, className }: { lines?: number; className?: st
 
 function SkeletonCard({ className }: { className?: string }) {
   return (
-    <div className={cn("rounded-lg border border-gray-200 bg-white p-4 shadow-sm space-y-3", className)}>
+    <div className={cn("rounded-lg border border-white/8 bg-white/5 p-4 shadow-sm space-y-3", className)}>
       <SkeletonLine className="h-5 w-3/4" />
       <div className="flex gap-2">
         <SkeletonLine className="h-5 w-16 rounded-full" />

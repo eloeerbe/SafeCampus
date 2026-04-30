@@ -58,8 +58,8 @@ export default function AdminReportDetailPage() {
     <AuthGuard requiredRole="admin">
       <div className="mx-auto max-w-2xl px-4 py-6">
         {!report ? (
-          <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center">
-            <p className="text-lg font-medium text-gray-700">Report not found</p>
+          <div className="rounded-lg border border-dashed border-white/15 p-8 text-center">
+            <p className="text-lg font-medium text-white/80">Report not found</p>
             <Link href="/admin" className="mt-3 inline-block text-sm text-primary hover:underline">
               ← Back to Admin Dashboard
             </Link>
@@ -77,24 +77,24 @@ export default function AdminReportDetailPage() {
             </div>
 
             {/* Description */}
-            <p className="text-sm text-gray-700 leading-relaxed">{report.description}</p>
+            <p className="text-sm text-white/80 leading-relaxed">{report.description}</p>
 
             {/* Details grid */}
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-500">Location</span>
+                <span className="font-medium text-white/50">Location</span>
                 <p>{report.location.areaName}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Submitted</span>
+                <span className="font-medium text-white/50">Submitted</span>
                 <p>{formatRelativeTime(report.submittedAt)}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Author</span>
+                <span className="font-medium text-white/50">Author</span>
                 <p>{getDisplayName(report.authorId, report.isAnonymous)}</p>
               </div>
               <div>
-                <span className="font-medium text-gray-500">Upvotes</span>
+                <span className="font-medium text-white/50">Upvotes</span>
                 <p>{report.upvotedBy.length}</p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function AdminReportDetailPage() {
             {/* Photos */}
             {report.photos.length > 0 && (
               <div>
-                <h2 className="mb-2 text-sm font-medium text-gray-500">Photos</h2>
+                <h2 className="mb-2 text-sm font-medium text-white/50">Photos</h2>
                 <div className="grid grid-cols-3 gap-2">
                   {report.photos.map((photo) => (
                     <img
@@ -121,12 +121,12 @@ export default function AdminReportDetailPage() {
               <div className="rounded-lg bg-safe/10 p-4">
                 <h2 className="text-sm font-semibold text-safe">Resolved</h2>
                 {report.resolvedAt && (
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-white/50">
                     Resolved {formatRelativeTime(report.resolvedAt)}
                   </p>
                 )}
                 {report.resolutionNotes && (
-                  <p className="mt-2 text-sm text-gray-700">{report.resolutionNotes}</p>
+                  <p className="mt-2 text-sm text-white/80">{report.resolutionNotes}</p>
                 )}
               </div>
             ) : (
@@ -146,7 +146,7 @@ export default function AdminReportDetailPage() {
               </div>
             )}
 
-            <Link href="/admin" className="inline-block text-sm text-gray-500 hover:underline">
+            <Link href="/admin" className="inline-block text-sm text-white/50 hover:underline">
               ← Back to Admin Dashboard
             </Link>
           </div>

@@ -7,8 +7,8 @@ import type { Report } from "@/lib/types";
 const HeatMapInner = dynamic(() => import("./HeatMapInner"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-slate-100">
-      <p className="text-sm text-slate-400 animate-pulse">Loading map…</p>
+    <div className="flex h-full w-full items-center justify-center bg-white/5">
+      <p className="text-sm animate-pulse" style={{ color: "rgba(255,255,255,0.4)" }}>Loading map…</p>
     </div>
   ),
 });

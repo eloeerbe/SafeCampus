@@ -39,7 +39,7 @@ export function UpvoteButton({
         "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
         hasUpvoted
           ? "bg-primary/10 text-primary"
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+          : "bg-white/8 text-white/60 hover:bg-white/12",
         isSelfAuthored && "cursor-not-allowed opacity-50"
       )}
       aria-label={`Upvote report, ${upvotedBy.length} upvotes`}

@@ -12,7 +12,8 @@ export function NotificationBell({ unreadCount, onClick }: NotificationBellProps
   return (
     <button
       onClick={onClick}
-      className="relative rounded-md p-2 text-gray-600 hover:bg-gray-100 transition-colors"
+      className="relative rounded-md p-2 transition-colors hover:bg-white/10"
+      style={{ color: "rgba(255,255,255,0.6)" }}
       aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
     >
       <Bell className="h-5 w-5" />

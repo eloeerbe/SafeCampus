@@ -44,7 +44,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center px-4" style={{ background: "#0C2340" }}>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-primary">Create Account</CardTitle>
@@ -114,7 +114,7 @@ export default function SignupPage() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center text-sm">
-          <p className="text-gray-500">
+          <p className="text-white/50">
             Already have an account?{" "}
             <Link href="/" className="text-primary hover:underline">
               Sign in

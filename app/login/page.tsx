@@ -8,10 +8,11 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { loginSchema } from "@/lib/schemas";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { BrandMark } from "@/components/BrandMark";
 import Link from "next/link";
+import Image from "next/image";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -46,70 +47,203 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-primary">SafeCampus</CardTitle>
-          <CardDescription>Sign in to your account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-            {/* Req 2.5, 2.6: Account lockout message */}
-            {serverError && (
-              <p className="text-sm text-danger text-center">{serverError}</p>
+    <div
+      className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden"
+      style={{ background: "#0C2340" }}
+    >
+      {/* ── Dot-grid background ─────────────────────────────────────────── */}
+      <style>{`
+        .dot-grid {
+          position: absolute;
+          inset: 0;
+          background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+          background-size: 28px 28px;
+          pointer-events: none;
+        }
+        .mesh-glow-1 {
+          position: absolute;
+          top: -120px;
+          left: -120px;
+          width: 520px;
+          height: 520px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(232,93,38,0.18) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .mesh-glow-2 {
+          position: absolute;
+          bottom: -100px;
+          right: -100px;
+          width: 480px;
+          height: 480px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .login-input {
+          border-radius: 8px !important;
+          background: rgba(255,255,255,0.06) !important;
+          border: 1px solid rgba(255,255,255,0.12) !important;
+          color: #fff !important;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .login-input::placeholder {
+          color: rgba(255,255,255,0.3) !important;
+        }
+        .login-input:focus {
+          border-color: rgba(232,93,38,0.6) !important;
+          box-shadow: 0 0 0 3px rgba(232,93,38,0.15) !important;
+          outline: none !important;
+        }
+        .login-input[aria-invalid="true"] {
+          border-color: rgba(239,68,68,0.6) !important;
+        }
+      `}</style>
+
+      <div className="dot-grid" aria-hidden="true" />
+      <div className="mesh-glow-1" aria-hidden="true" />
+      <div className="mesh-glow-2" aria-hidden="true" />
+
+      {/* ── Card ────────────────────────────────────────────────────────── */}
+      <div
+        className="relative z-10 w-full max-w-[420px] rounded-2xl p-8 flex flex-col gap-6"
+        style={{
+          background: "rgba(255,255,255,0.05)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
+        }}
+      >
+        {/* ── Logo lockup ─────────────────────────────────────────────── */}
+        <div className="flex justify-center">
+          <BrandMark href="/" />
+        </div>
+
+        {/* ── Heading ─────────────────────────────────────────────────── */}
+        <div className="text-center space-y-1">
+          <h1 className="text-2xl font-bold" style={{ color: "#fff" }}>
+            Welcome back
+          </h1>
+          <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+            Sign in to your campus safety account
+          </p>
+        </div>
+
+        {/* ── SSO button ──────────────────────────────────────────────── */}
+        <button
+          type="button"
+          onClick={() => {
+            // SSO flow placeholder — would redirect to CSUF IdP in production
+          }}
+          className="w-full flex items-center justify-center gap-3 rounded-lg py-3 px-4 font-semibold text-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E85D26] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C2340]"
+          style={{
+            background: "rgba(255,255,255,0.1)",
+            border: "1px solid rgba(255,255,255,0.18)",
+            color: "#fff",
+            borderRadius: "8px",
+          }}
+          aria-label="Continue with CSUF Portal single sign-on"
+        >
+          {/* CSUF portal icon — two-tone bar chart mark */}
+          <span aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <span style={{ display: "inline-block", width: 5, height: 14, background: "#E85D26", borderRadius: 2 }} />
+            <span style={{ display: "inline-block", width: 5, height: 10, background: "#fff", borderRadius: 2, opacity: 0.7 }} />
+            <span style={{ display: "inline-block", width: 5, height: 18, background: "#E85D26", borderRadius: 2 }} />
+          </span>
+          Continue with CSUF Portal (SSO)
+        </button>
+
+        {/* ── Divider ─────────────────────────────────────────────────── */}
+        <div className="flex items-center gap-3" role="separator" aria-label="or sign in with email">
+          <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.1)" }} />
+          <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
+            or sign in with email
+          </span>
+          <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.1)" }} />
+        </div>
+
+        {/* ── Email / password form ────────────────────────────────────── */}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+          {/* Req 2.5, 2.6: Account lockout / credential error */}
+          {serverError && (
+            <p
+              className="text-sm text-center rounded-lg px-3 py-2"
+              style={{ background: "rgba(239,68,68,0.12)", color: "#fca5a5", border: "1px solid rgba(239,68,68,0.25)" }}
+              role="alert"
+            >
+              {serverError}
+            </p>
+          )}
+
+          {/* Email — Req 2.4, 20.1 */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.85)" }}>
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@csu.fullerton.edu"
+              className="login-input"
+              {...register("email")}
+              aria-invalid={!!errors.email}
+            />
+            {errors.email && (
+              <p className="text-xs" style={{ color: "#fca5a5" }}>{errors.email.message}</p>
             )}
+          </div>
 
-            {/* Req 2.4, 20.1: Email field with inline validation */}
-            <div className="space-y-1">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@csu.fullerton.edu"
-                {...register("email")}
-                aria-invalid={!!errors.email}
-              />
-              {errors.email && (
-                <p className="text-sm text-danger">{errors.email.message}</p>
-              )}
-            </div>
+          {/* Password — Req 2.4, 20.1 */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="password" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.85)" }}>
+              Password
+            </label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="login-input"
+              {...register("password")}
+              aria-invalid={!!errors.password}
+            />
+            {errors.password && (
+              <p className="text-xs" style={{ color: "#fca5a5" }}>{errors.password.message}</p>
+            )}
+          </div>
 
-            {/* Req 2.4, 20.1: Password field with inline validation */}
-            <div className="space-y-1">
-              <label htmlFor="password" className="text-sm font-medium">
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                {...register("password")}
-                aria-invalid={!!errors.password}
-              />
-              {errors.password && (
-                <p className="text-sm text-danger">{errors.password.message}</p>
-              )}
-            </div>
+          {/* Submit */}
+          <Button
+            type="submit"
+            className="w-full font-semibold mt-1 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-[#E85D26] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0C2340]"
+            style={{ background: "#0C2340", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px" }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Signing in…" : "Sign in"}
+          </Button>
+        </form>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-2 text-sm text-center">
-          <Link href="/forgot-password" className="text-primary hover:underline">
+        {/* ── Footer links ────────────────────────────────────────────── */}
+        <div className="flex flex-col items-center gap-2 text-sm">
+          <Link
+            href="/forgot-password"
+            className="font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E85D26] rounded"
+            style={{ color: "#E85D26" }}
+          >
             Forgot password?
           </Link>
-          <p className="text-gray-500">
+          <p style={{ color: "rgba(255,255,255,0.55)" }}>
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-primary hover:underline">
+            <Link
+              href="/signup"
+              className="font-semibold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E85D26] rounded"
+              style={{ color: "#E85D26" }}
+            >
               Sign up
             </Link>
           </p>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

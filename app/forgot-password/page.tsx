@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center px-4" style={{ background: "#0C2340" }}>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-primary">Reset Password</CardTitle>
@@ -126,7 +126,7 @@ export default function ForgotPasswordPage() {
                 <p className="text-sm text-safe text-center">{successMessage}</p>
               )}
               <OtpInput length={7} onComplete={handleOtpComplete} error={otpError} />
-              <p className="text-center text-xs text-gray-400">
+              <p className="text-center text-xs text-white/40">
                 For demo purposes, any 7-digit number is accepted.
               </p>
             </div>

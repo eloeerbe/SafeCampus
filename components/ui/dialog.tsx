@@ -61,7 +61,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
         role="dialog"
         aria-modal="true"
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border border-gray-200 bg-white p-6 shadow-md",
+          "fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/10 bg-[#0d1f38] p-6 shadow-md",
           className
         )}
         {...props}

@@ -8,7 +8,7 @@ import { LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useTranslation } from "@/hooks/useTranslation"; // Step 1: Import
+import { useTranslation } from "@/hooks/useTranslation";
 import { NotificationBell } from "@/components/NotificationBell";
 import { BrandMark } from "@/components/BrandMark";
 import { cn } from "@/lib/cn";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/cn";
 const PUBLIC_PATHS = ["/", "/login", "/signup", "/verify", "/forgot-password"];
 
 export function NavBar() {
-  const { t } = useTranslation(); // Step 2: Initialize translation
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const currentUser = useAuthStore((s) => s.currentUser);
@@ -37,7 +37,6 @@ export function NavBar() {
     router.push("/notifications");
   };
 
-  // Step 3: Use the dictionary variables (No curly braces here)
   const navLinks = [
     { href: "/dashboard", label: t.nav.dashboard },
     { href: "/map", label: t.nav.map },
@@ -49,9 +48,17 @@ export function NavBar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
+    <nav
+      className="sticky top-0 z-50 border-b"
+      style={{
+        background: "rgba(12,35,64,0.92)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderColor: "rgba(255,255,255,0.08)",
+      }}
+    >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <BrandMark href={currentUser.role === "admin" ? "/admin" : "/dashboard"} />
+        <BrandMark href={currentUser.role === "admin" ? "/admin" : "/dashboard"} variant="dark" />
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-1 sm:flex">
@@ -62,8 +69,8 @@ export function NavBar() {
               className={cn(
                 "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "bg-slate-100 text-slate-900"
-                  : "text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                  ? "bg-white/10 text-white"
+                  : "text-white/55 hover:bg-white/5 hover:text-white"
               )}
             >
               {link.label}
@@ -78,7 +85,8 @@ export function NavBar() {
           />
           <button
             onClick={handleLogout}
-            className="hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 transition-colors sm:block"
+            className="hidden rounded-md p-2 transition-colors hover:bg-white/10 sm:block"
+            style={{ color: "rgba(255,255,255,0.6)" }}
             aria-label="Logout"
           >
             <LogOut className="h-5 w-5" />
@@ -86,7 +94,8 @@ export function NavBar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-md p-2 text-gray-600 hover:bg-gray-100 sm:hidden"
+            className="rounded-md p-2 transition-colors hover:bg-white/10 sm:hidden"
+            style={{ color: "rgba(255,255,255,0.6)" }}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -96,7 +105,10 @@ export function NavBar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t bg-white px-4 py-2 sm:hidden">
+        <div
+          className="border-t px-4 py-2 sm:hidden"
+          style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(12,35,64,0.98)" }}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -105,17 +117,17 @@ export function NavBar() {
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "bg-slate-100 text-slate-900"
-                  : "text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                  ? "bg-white/10 text-white"
+                  : "text-white/55 hover:bg-white/5 hover:text-white"
               )}
             >
               {link.label}
             </Link>
           ))}
-          {/* Step 4: Translate the mobile logout text */}
           <button
             onClick={handleLogout}
-            className="mt-1 flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+            className="mt-1 flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-white/10"
+            style={{ color: "rgba(255,255,255,0.6)" }}
           >
             <LogOut className="h-4 w-4" /> {t.nav.logout}
           </button>
