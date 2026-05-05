@@ -6,6 +6,15 @@ import type { Severity } from "./types";
 
 export const CSUF_CENTER = { lat: 33.8823, lng: -117.8851 } as const;
 export const DEFAULT_MAP_ZOOM = 15;
+export const CAMPUS_MAP_MIN_ZOOM = 15;
+export const CAMPUS_MAP_MAX_ZOOM = 18;
+
+// Exact rectangular CSUF campus bounds used for panning, fitting, masking, and
+// report location validation.
+export const CSUF_BOUNDS: [[number, number], [number, number]] = [
+  [33.8769, -117.8909], // southwest / bottom-left
+  [33.8890, -117.8802], // northeast / top-right
+];
 
 // --- Severity-to-Heat Intensity Mapping (Req 9.2) ---
 

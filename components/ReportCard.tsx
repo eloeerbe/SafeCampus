@@ -1,6 +1,7 @@
 "use client";
 
 // Requirements: 6.5, 8.5
+import Image from "next/image";
 import type { Report } from "@/lib/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { SeverityBadge } from "@/components/SeverityBadge";
@@ -14,15 +15,18 @@ interface ReportCardProps {
   report: Report;
   currentUserId: string;
   onUpvote: (reportId: string) => void;
+  onRemoveUpvote?: (reportId: string) => void;
 }
 
-export function ReportCard({ report, currentUserId, onUpvote }: ReportCardProps) {
+export function ReportCard({ report, currentUserId, onUpvote, onRemoveUpvote }: ReportCardProps) {
   const { t } = useTranslation(); // Move the hook here, inside the function!
+  const thumbnail = report.photos[0];
 
   // Helper to safely get translations for dynamic badges
   const translate = (key: string) => {
     const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
-    return (t.common as any)[cleanKey] || key;
+    const commonTranslations = t.common as Partial<Record<string, string>>;
+    return commonTranslations[cleanKey] || key;
   };
 
   return (
@@ -50,6 +54,20 @@ export function ReportCard({ report, currentUserId, onUpvote }: ReportCardProps)
               {/* If your translation file has a generic time string, use it here */}
               <span>{t.feed.timeAgo || formatRelativeTime(report.submittedAt)}</span>
             </div>
+
+            {thumbnail && (
+              <div className="relative mt-3 flex h-40 w-full items-center justify-center overflow-hidden rounded-md bg-black/20 sm:h-48">
+                <Image
+                  src={thumbnail.url}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, 640px"
+                  className="object-contain"
+                  loading="lazy"
+                  unoptimized
+                />
+              </div>
+            )}
           </div>
 
           <UpvoteButton
@@ -58,6 +76,7 @@ export function ReportCard({ report, currentUserId, onUpvote }: ReportCardProps)
             currentUserId={currentUserId}
             upvotedBy={report.upvotedBy}
             onUpvote={onUpvote}
+            onRemoveUpvote={onRemoveUpvote}
           />
         </div>
       </CardContent>

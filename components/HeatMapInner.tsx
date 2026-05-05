@@ -11,8 +11,9 @@ import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import type { Report } from "@/lib/types";
-import { CSUF_CENTER } from "@/lib/constants";
+import { CAMPUS_MAP_MAX_ZOOM, CAMPUS_MAP_MIN_ZOOM, CSUF_BOUNDS, CSUF_CENTER } from "@/lib/constants";
 import { isAnonymousLocationDelayed, formatRelativeTime } from "@/lib/utils";
+import { CampusMapOverlays } from "@/components/CampusMapOverlays";
 
 // ── Severity config ──────────────────────────────────────────────
 const SEVERITY_COLOR: Record<string, string> = {
@@ -337,6 +338,10 @@ export default function HeatMapInner({
       <MapContainer
         center={[CSUF_CENTER.lat, CSUF_CENTER.lng]}
         zoom={16}
+        minZoom={CAMPUS_MAP_MIN_ZOOM}
+        maxZoom={CAMPUS_MAP_MAX_ZOOM}
+        maxBounds={CSUF_BOUNDS}
+        maxBoundsViscosity={1.0}
         scrollWheelZoom
         className="h-full w-full"
         style={{ height: "100%", width: "100%", zIndex: 0 }}
@@ -345,6 +350,7 @@ export default function HeatMapInner({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <CampusMapOverlays />
         <MapController
           reports={visibleReports}
           currentUserId={currentUserId}

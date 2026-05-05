@@ -8,6 +8,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import { SeverityBadge } from "@/components/SeverityBadge";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { StatusBadge } from "@/components/StatusBadge";
+import { ReportPhotoGallery } from "@/components/ReportPhotoGallery";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useReportsStore } from "@/lib/store/reportsStore";
@@ -103,16 +104,7 @@ export default function AdminReportDetailPage() {
             {report.photos.length > 0 && (
               <div>
                 <h2 className="mb-2 text-sm font-medium text-white/50">Photos</h2>
-                <div className="grid grid-cols-3 gap-2">
-                  {report.photos.map((photo) => (
-                    <img
-                      key={photo.id}
-                      src={photo.url}
-                      alt="Report photo"
-                      className="h-32 w-full rounded-lg object-cover"
-                    />
-                  ))}
-                </div>
+                <ReportPhotoGallery photos={report.photos} />
               </div>
             )}
 

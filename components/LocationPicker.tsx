@@ -7,7 +7,7 @@ import { MapPin } from "lucide-react";
 const LocationPickerMap = dynamic(() => import("./LocationPickerMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-64 w-full items-center justify-center rounded-md bg-white/5">
+    <div className="flex h-[380px] w-full max-w-[700px] items-center justify-center rounded-md bg-white/5 md:h-[450px]">
       <MapPin className="h-6 w-6 animate-pulse text-white/40" />
     </div>
   ),
@@ -20,7 +20,7 @@ interface LocationPickerProps {
 
 export function LocationPicker({ value, onChange }: LocationPickerProps) {
   return (
-    <div className="space-y-2">
+    <div className="w-full max-w-[700px] space-y-2">
       <LocationPickerMap value={value} onChange={onChange} />
       {value && (
         <p className="text-sm text-white/55">

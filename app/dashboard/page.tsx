@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const { t } = useTranslation(); // Initialize translation
   const currentUser = useAuthStore((s) => s.currentUser);
   const upvoteReport = useReportsStore((s) => s.upvoteReport);
+  const removeUpvote = useReportsStore((s) => s.removeUpvote);
   const getSortedByUpvotes = useReportsStore((s) => s.getSortedByUpvotes);
   const feedFilter = useUIStore((s) => s.feedFilter);
   const setFeedFilter = useUIStore((s) => s.setFeedFilter);
@@ -37,6 +38,11 @@ export default function DashboardPage() {
   const handleUpvote = (reportId: string) => {
     if (!currentUser) return;
     upvoteReport(reportId, currentUser.id);
+  };
+
+  const handleRemoveUpvote = (reportId: string) => {
+    if (!currentUser) return;
+    removeUpvote(reportId, currentUser.id);
   };
 
   return (
@@ -69,13 +75,14 @@ export default function DashboardPage() {
               : t.feed.noActiveReports || "No active reports to display."}
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             {filteredReports.map((report) => (
               <Link key={report.id} href={`/report/${report.id}`}>
                 <ReportCard
                   report={report}
                   currentUserId={currentUser?.id ?? ""}
                   onUpvote={handleUpvote}
+                  onRemoveUpvote={handleRemoveUpvote}
                 />
               </Link>
             ))}

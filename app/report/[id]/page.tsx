@@ -10,6 +10,7 @@ import { UpvoteButton } from "@/components/UpvoteButton";
 import { SeverityBadge } from "@/components/SeverityBadge";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { StatusBadge } from "@/components/StatusBadge";
+import { ReportPhotoGallery } from "@/components/ReportPhotoGallery";
 import { useReportsStore } from "@/lib/store/reportsStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
@@ -33,7 +34,8 @@ export default function ReportDetailPage() {
   // Helper to translate dynamic strings like "Safety" or "Open"
   const translate = (key: string) => {
     const lowerKey = key.toLowerCase().replace(/\s+/g, '');
-    return (t.common as any)[lowerKey] || key;
+    const commonTranslations = t.common as Partial<Record<string, string>>;
+    return commonTranslations[lowerKey] || key;
   };
 
   const handleUpvote = (id: string) => {
@@ -110,16 +112,7 @@ export default function ReportDetailPage() {
             {report.photos.length > 0 && (
               <div>
                 <h2 className="mb-2 text-sm font-medium text-white/50">{t.feed.photos}</h2>
-                <div className="grid grid-cols-3 gap-2">
-                  {report.photos.map((photo) => (
-                    <img
-                      key={photo.id}
-                      src={photo.url}
-                      alt="Report photo"
-                      className="h-32 w-full rounded-lg object-cover"
-                    />
-                  ))}
-                </div>
+                <ReportPhotoGallery photos={report.photos} />
               </div>
             )}
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CSUF_BOUNDS } from "./constants";
 
 // SR-001: Only CSUF emails allowed
 export const csuEmailSchema = z
@@ -32,6 +33,17 @@ export const reportCategorySchema = z.enum([
 
 export const severitySchema = z.enum(["Low", "Medium", "High", "Critical"]);
 
+function isWithinCsufBounds(location: { lat: number; lng: number }) {
+  const [[south, west], [north, east]] = CSUF_BOUNDS;
+
+  return (
+    location.lat >= south
+    && location.lat <= north
+    && location.lng >= west
+    && location.lng <= east
+  );
+}
+
 // Requirement 5.3, 20.1: Report form validation with all required fields
 export const reportFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -42,6 +54,9 @@ export const reportFormSchema = z.object({
     lat: z.number(),
     lng: z.number(),
     areaName: z.string().min(1, "Location is required"),
+  }).refine(isWithinCsufBounds, {
+    message: "Please choose a location within campus grounds.",
+    path: ["areaName"],
   }),
   photos: z
     .array(
